@@ -53,8 +53,16 @@ void main() {
 }
 )";
 
+int width = 800, height = 600;
+
 void error_callback(int error, const char* description) {
     std::cerr << "Error: " << description << std::endl;
+}
+
+void resize_callback(GLFWwindow* window, int _width, int _height) {
+    width = _width;
+    height = _height;
+    glViewport(0, 0, width, height);
 }
 
 int main() {
@@ -67,7 +75,7 @@ int main() {
     glfwSetErrorCallback(error_callback);
 
     // Create a windowed mode GLFW window and its OpenGL context
-    GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL Shader", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(width, height, "OpenGL Shader", nullptr, nullptr);
     if (!window) {
         std::cerr << "Failed to create GLFW window." << std::endl;
         glfwTerminate();
@@ -77,6 +85,9 @@ int main() {
     // Make the window's context current
     glfwMakeContextCurrent(window);
 
+    // Resize window
+    glfwSetWindowSizeCallback(window, resize_callback);
+    
     // Initialize GLEW
     if (glewInit() != GLEW_OK) {
         std::cerr << "Failed to initialize GLEW." << std::endl;
@@ -154,7 +165,7 @@ int main() {
 
         // Set uniform variables
         GLint resolutionLoc = glGetUniformLocation(shaderProgram, "iResolution");
-        glUniform2f(resolutionLoc, 800, 600);
+        glUniform2f(resolutionLoc, width, height);
 
         GLint timeLoc = glGetUniformLocation(shaderProgram, "iTime");
         glUniform1f(timeLoc, glfwGetTime());
