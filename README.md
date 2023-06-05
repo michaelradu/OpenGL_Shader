@@ -55,7 +55,8 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## To do:
 
-- Make the shader full-screen when the user forces the window to be full-screen.
+- Add more shaders made by me.
+- Separate shaders from source.
 
 ## Contributing
 
